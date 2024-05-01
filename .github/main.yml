@@ -1,0 +1,61 @@
+# The Example of Compiling LaTeX File
+# In your latex repository, make .github/workflows/main.yml like below.
+# You only have to change `LATEX_FILE_NAME` as your tex file.
+
+on:
+  push
+  #push:
+    #tags:
+      #- "v*"
+
+jobs:
+  test_job:
+    runs-on: ubuntu-latest
+    name: Example of compiling pdf
+    steps:
+      # make pdf
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+      - name: Compile emax6e Tex File
+        id: compile_tex_file
+        uses: tsukuba-mas/platex-action@main
+        with:
+          LATEX_FILE_NAME: "emax6e.tex"
+      - name: Compile emax6j Tex File
+        id: compile_tex_file
+        uses: tsukuba-mas/platex-action@main
+        with:
+          LATEX_FILE_NAME: "emax6j.tex"
+      # Create Release
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Compiled PDF ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset (Japanese)
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./emax6j.pdf
+          asset_name: emax6j.pdf
+          asset_content_type: application/pdf
+      - name: Upload Release Asset (English)
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./emax6e.pdf
+          asset_name: emax6e.pdf
+          asset_content_type: application/pdf

@@ -10,16 +10,19 @@ $latex_silent = 'platex -synctex=1 -halt-on-error -interaction=batchmode';
 # pbibtex
 $bibtex = 'pbibtex';
 
-# div -> pdf output main.pdf 
-$dvipdf = 'dvipdfmx %O -o %D %S';
+# dvi -> ps
+$dvi2ps = 'dvips %O -o %D %S';
+
+# ps -> pdf
+$ps2pdf = 'ps2pdf -sPAPERSIZE=a4 %O -o %D %S';
 
 # index
 $makeindex = 'mendex %O -o %D %S';
 
 $max_repeat = 4;
 
-# dvi -> pdf
-$pdf_mode = 3;
+# dvi -> ps -> pdf
+$pdf_mode = 2;
 
 # preview update
 $pdf_update_method = 4;

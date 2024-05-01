@@ -3,7 +3,9 @@
 # You only have to change `LATEX_FILE_NAME` as your tex file.
 
 on:
-  push
+  push:
+    branches:
+      - github_actions
   #push:
     #tags:
       #- "v*"

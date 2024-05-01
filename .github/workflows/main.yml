@@ -20,12 +20,12 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
       - name: Compile emax6e Tex File
-        id: compile_tex_file
+        id: compile_tex_file_english
         uses: tsukuba-mas/platex-action@main
         with:
           LATEX_FILE_NAME: "emax6e.tex"
       - name: Compile emax6j Tex File
-        id: compile_tex_file
+        id: compile_tex_file_japanese
         uses: tsukuba-mas/platex-action@main
         with:
           LATEX_FILE_NAME: "emax6j.tex"
@@ -43,7 +43,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset (Japanese)
-        id: upload_release_asset
+        id: upload_release_asset_japanese
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -53,7 +53,7 @@ jobs:
           asset_name: emax6j.pdf
           asset_content_type: application/pdf
       - name: Upload Release Asset (English)
-        id: upload_release_asset
+        id: upload_release_asset_english
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
